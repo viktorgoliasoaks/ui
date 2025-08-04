@@ -1,5 +1,11 @@
 # @shadcn/ui
 
+## 2.11.0
+
+### Minor Changes
+
+- [#7940](https://github.com/shadcn-ui/ui/pull/7940) [`578f83cbefe1b3d70b8179a58c70c5729fd1982f`](https://github.com/shadcn-ui/ui/commit/578f83cbefe1b3d70b8179a58c70c5729fd1982f) Thanks [@shadcn](https://github.com/shadcn)! - add support for namespaced registries
+
 ## 2.10.0
 
 ### Minor Changes
