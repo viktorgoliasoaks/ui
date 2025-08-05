@@ -1,3 +1,5 @@
+"use client"
+
 import * as React from "react"
 import { Slot } from "@radix-ui/react-slot"
 import { cva, type VariantProps } from "class-variance-authority"
@@ -20,6 +22,7 @@ const buttonVariants = cva(
         ghost:
           "hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50",
         link: "text-primary underline-offset-4 hover:underline",
+        figma: "bg-figma text-white shadow-xs hover:bg-figma/90 border border-figma/20",
       },
       size: {
         default: "h-9 px-4 py-2 has-[>svg]:px-3",
@@ -56,4 +59,58 @@ function Button({
   )
 }
 
-export { Button, buttonVariants }
+// Figma Code Connect Button Component
+interface FigmaCodeConnectButtonProps extends React.ComponentProps<"button"> {
+  figmaNodeId?: string
+  figmaFileKey?: string
+  children: React.ReactNode
+  className?: string
+  variant?: VariantProps<typeof buttonVariants>["variant"]
+  size?: VariantProps<typeof buttonVariants>["size"]
+}
+
+function FigmaCodeConnectButton({
+  figmaNodeId,
+  figmaFileKey,
+  children,
+  className,
+  variant = "figma",
+  size = "default",
+  ...props
+}: FigmaCodeConnectButtonProps) {
+  const handleFigmaClick = () => {
+    if (figmaNodeId && figmaFileKey) {
+      // Open Figma with the specific node
+      const figmaUrl = `https://www.figma.com/file/${figmaFileKey}?node-id=${figmaNodeId}`
+      window.open(figmaUrl, '_blank')
+    }
+  }
+
+  return (
+    <Button
+      variant={variant}
+      size={size}
+      className={cn("group", className)}
+      onClick={handleFigmaClick}
+      {...props}
+    >
+      {children}
+      <svg
+        className="size-4 transition-transform group-hover:translate-x-0.5"
+        fill="none"
+        stroke="currentColor"
+        viewBox="0 0 24 24"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth={2}
+          d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
+        />
+      </svg>
+    </Button>
+  )
+}
+
+export { Button, buttonVariants, FigmaCodeConnectButton }
