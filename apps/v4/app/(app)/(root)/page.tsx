@@ -1,5 +1,6 @@
 import { Metadata } from "next"
 import { FigmaButton } from "@/components/figma-button"
+import Link from "next/link"
 
 const title = "My App"
 const description = "A blank homepage for your application"
@@ -39,7 +40,15 @@ export default function IndexPage() {
         <p className="text-muted-foreground max-w-md">
           This button is connected to Figma through Code Connect. Click to open the design in Figma.
         </p>
-        <FigmaButton />
+        <div className="flex gap-4">
+          <FigmaButton />
+          <Link 
+            href="/test" 
+            className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 bg-secondary text-secondary-foreground shadow-xs hover:bg-secondary/80 h-9 px-4 py-2"
+          >
+            Test Page
+          </Link>
+        </div>
       </div>
     </div>
   )

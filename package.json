@@ -4,6 +4,9 @@
   "private": true,
   "license": "MIT",
   "type": "module",
+  "figma": {
+    "parser": "react"
+  },
   "author": {
     "name": "shadcn",
     "url": "https://twitter.com/shadcn"
