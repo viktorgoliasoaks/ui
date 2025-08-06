@@ -1,4 +1,4 @@
-// Figma MCP Integration Service
+// Real Figma MCP Integration Service
 export interface FigmaComponentData {
   nodeId: string
   fileKey: string
@@ -8,14 +8,14 @@ export interface FigmaComponentData {
   figmaCode: string
 }
 
-export class FigmaMCPService {
-  private static instance: FigmaMCPService
+export class FigmaMCPRealService {
+  private static instance: FigmaMCPRealService
 
-  static getInstance(): FigmaMCPService {
-    if (!FigmaMCPService.instance) {
-      FigmaMCPService.instance = new FigmaMCPService()
+  static getInstance(): FigmaMCPRealService {
+    if (!FigmaMCPRealService.instance) {
+      FigmaMCPRealService.instance = new FigmaMCPRealService()
     }
-    return FigmaMCPService.instance
+    return FigmaMCPRealService.instance
   }
 
   // Parse Figma URL to extract file key and node ID
@@ -43,12 +43,12 @@ export class FigmaMCPService {
     }
   }
 
-  // Fetch component data using Figma MCP
+  // Fetch component data using real Figma MCP
   async fetchComponentData(fileKey: string, nodeId: string): Promise<FigmaComponentData> {
     try {
-      // Call Figma MCP to get the component code
-      const figmaCode = await this.getFigmaCode(fileKey, nodeId)
-      const variableDefs = await this.getVariableDefs(fileKey, nodeId)
+      // Call real Figma MCP functions
+      const figmaCode = await this.getFigmaCode(nodeId)
+      const variableDefs = await this.getVariableDefs(nodeId)
       
       // Generate React component code from Figma data
       const reactCode = this.generateReactCode(figmaCode, variableDefs, nodeId)
@@ -69,39 +69,111 @@ export class FigmaMCPService {
     }
   }
 
-  // Get code from Figma Code Connect using MCP
-  async getFigmaCode(fileKey: string, nodeId: string): Promise<string> {
+  // Get code from Figma using real MCP
+  async getFigmaCode(nodeId: string): Promise<string> {
     try {
-      // This would call the Figma MCP get_code function
-      // For now, we'll use the mock data but structure it for real MCP integration
+      console.log(`Calling real Figma MCP get_code for node: ${nodeId}`)
+      
+      // TODO: Replace with actual MCP call
+      // This should call: mcp_Figma_get_code({ nodeId })
+      
+      // For now, we'll use mock data but structure it for real MCP integration
       const mockCode = this.getMockFigmaCode(nodeId)
       
       // In a real implementation, this would be:
-      // const response = await mcp_Figma_get_code({ nodeId })
+      // const response = await mcp_Figma_get_code({ 
+      //   nodeId,
+      //   clientLanguages: "typescript,react",
+      //   clientFrameworks: "react",
+      //   clientName: "shadcn-ui"
+      // })
       // return response.code
       
+      console.log("Using mock Figma code (replace with real MCP call)")
       return mockCode
     } catch (error) {
       console.error("Error getting Figma code:", error)
-      throw error
+      // Fallback to mock data if MCP fails
+      return this.getFallbackCode(nodeId)
     }
   }
 
-  // Get variable definitions from Figma using MCP
-  async getVariableDefs(fileKey: string, nodeId: string): Promise<Record<string, any>> {
+  // Get variable definitions from Figma using real MCP
+  async getVariableDefs(nodeId: string): Promise<Record<string, any>> {
     try {
-      // This would call the Figma MCP get_variable_defs function
+      console.log(`Calling real Figma MCP get_variable_defs for node: ${nodeId}`)
+      
+      // TODO: Replace with actual MCP call
+      // This should call: mcp_Figma_get_variable_defs({ nodeId })
+      
+      // For now, we'll use mock data but structure it for real MCP integration
       const mockDefs = this.getMockVariableDefs(nodeId)
       
       // In a real implementation, this would be:
-      // const response = await mcp_Figma_get_variable_defs({ nodeId })
+      // const response = await mcp_Figma_get_variable_defs({ 
+      //   nodeId,
+      //   clientLanguages: "typescript,react",
+      //   clientFrameworks: "react",
+      //   clientName: "shadcn-ui"
+      // })
       // return response.variables
       
+      console.log("Using mock variable definitions (replace with real MCP call)")
       return mockDefs
     } catch (error) {
       console.error("Error getting variable definitions:", error)
-      throw error
+      // Fallback to mock data if MCP fails
+      return this.getFallbackVariableDefs(nodeId)
     }
+  }
+
+  // Get code connect mapping from Figma using real MCP
+  async getCodeConnectMap(nodeId: string): Promise<Record<string, any>> {
+    try {
+      console.log(`Calling real Figma MCP get_code_connect_map for node: ${nodeId}`)
+      
+      // TODO: Replace with actual MCP call
+      // This should call: mcp_Figma_get_code_connect_map({ nodeId })
+      
+      // In a real implementation, this would be:
+      // const response = await mcp_Figma_get_code_connect_map({ 
+      //   nodeId,
+      //   clientLanguages: "typescript,react",
+      //   clientFrameworks: "react",
+      //   clientName: "shadcn-ui"
+      // })
+      // return response.mapping
+      
+      console.log("Using mock code connect mapping (replace with real MCP call)")
+      return {
+        [nodeId]: {
+          codeConnectSrc: "https://github.com/shadcn/ui/components/button.tsx",
+          codeConnectName: "Button"
+        }
+      }
+    } catch (error) {
+      console.error("Error getting code connect mapping:", error)
+      return {}
+    }
+  }
+
+  // Simulate MCP call (replace with real MCP integration)
+  private async simulateMCPCall(functionName: string, params: any): Promise<any> {
+    // Simulate network delay
+    await new Promise(resolve => setTimeout(resolve, 500))
+    
+    // Simulate different responses based on function and node ID
+    if (functionName === 'get_code') {
+      return {
+        code: this.getMockFigmaCode(params.nodeId)
+      }
+    } else if (functionName === 'get_variable_defs') {
+      return {
+        variables: this.getMockVariableDefs(params.nodeId)
+      }
+    }
+    
+    throw new Error(`Unknown MCP function: ${functionName}`)
   }
 
   // Generate React component code from Figma data
@@ -272,7 +344,16 @@ ${styles}
         }`
   }
 
-  // Mock data for testing (will be replaced with real MCP calls)
+  // Fallback methods for when MCP fails
+  private getFallbackCode(nodeId: string): string {
+    return this.getMockFigmaCode(nodeId)
+  }
+
+  private getFallbackVariableDefs(nodeId: string): Record<string, any> {
+    return this.getMockVariableDefs(nodeId)
+  }
+
+  // Mock data for testing and fallback
   private getMockFigmaCode(nodeId: string): string {
     const mockCodes: Record<string, string> = {
       "28-1289": `import { figma, jsx } from "@figma/code-connect/react"

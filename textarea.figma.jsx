@@ -12,21 +12,18 @@ figma.connect(
   "https://www.figma.com/design/rgqHmkJX2Uw9PhGoon1OIh/MCP-Code-Connect-DS?node-id=12-272&m=dev",
   {
     props: {
-      label: true,
-      helperText: true,
-      type: "default",
-      state: "Default"
+      label: "Your message",
+      helperText: "Type your message here"
     },
-    example: (props: any) => html`
+    example: (props) => html`
       <div class="flex flex-col gap-2">
         <label class="font-['Inter:Medium',_sans-serif] font-medium text-[#000000] text-[14px] leading-[14px]">
-          Your message
+          ${props.label || "Your message"}
         </label>
-        <textarea 
+        <textarea
           class="border-input placeholder:text-muted-foreground focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive dark:bg-input/30 flex field-sizing-content min-h-16 w-full rounded-md border bg-transparent px-3 py-2 text-base shadow-xs transition-[color,box-shadow] outline-none focus-visible:ring-[3px] disabled:cursor-not-allowed disabled:opacity-50 md:text-sm"
-          placeholder="Type your message here"
-        >
-        </textarea>
+          placeholder="${props.helperText || "Type your message here"}"
+        />
       </div>
     `,
   },

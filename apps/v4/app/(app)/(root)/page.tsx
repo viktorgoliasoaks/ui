@@ -1,9 +1,8 @@
 import { Metadata } from "next"
-import { FigmaButton } from "@/components/figma-button"
-import Link from "next/link"
+import TestClient from "./test/test-client"
 
-const title = "My App"
-const description = "A blank homepage for your application"
+const title = "Figma Code Connect Demo"
+const description = "Demonstrating Figma Code Connect integration with published code panel and component testing"
 
 export const dynamic = "force-static"
 export const revalidate = false
@@ -34,21 +33,10 @@ export const metadata: Metadata = {
 
 export default function IndexPage() {
   return (
-    <div className="flex min-h-screen flex-col items-center justify-center p-8">
-      <div className="text-center space-y-6">
-        <h1 className="text-3xl font-bold">Figma Code Connect Example</h1>
-        <p className="text-muted-foreground max-w-md">
-          This button is connected to Figma through Code Connect. Click to open the design in Figma.
-        </p>
-        <div className="flex gap-4">
-          <FigmaButton />
-          <Link 
-            href="/test" 
-            className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 bg-secondary text-secondary-foreground shadow-xs hover:bg-secondary/80 h-9 px-4 py-2"
-          >
-            Test Page
-          </Link>
-        </div>
+    <div className="min-h-screen bg-gray-50">
+      {/* Main Content - Test Client */}
+              <div className="max-w-8xl mx-auto p-8">
+        <TestClient />
       </div>
     </div>
   )

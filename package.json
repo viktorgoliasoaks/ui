@@ -5,7 +5,7 @@
   "license": "MIT",
   "type": "module",
   "figma": {
-    "parser": "react"
+    "parser": "html"
   },
   "author": {
     "name": "shadcn",

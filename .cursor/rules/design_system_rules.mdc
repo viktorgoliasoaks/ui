@@ -1,0 +1,269 @@
+# Design System Rules for shadcn/ui Figma MCP Integration
+
+## 1. Token Definitions
+
+### Color System
+- **Location**: [apps/v4/registry/registry-colors.ts](mdc:apps/v4/registry/registry-colors.ts)
+- **Format**: CSS variables with HSL/OKLCH values
+- **Structure**: 
+  ```typescript
+  export const colors = {
+    neutral: [
+      { scale: 50, hex: "#fafafa", rgb: "rgb(250,250,250)", hsl: "hsl(0,0%,98%)", oklch: "oklch(0.99,0.00,0)" },
+      // ... more scales
+    ]
+  }
+  ```
+
+### CSS Variables
+- **Location**: [apps/v4/styles/globals.css](mdc:apps/v4/styles/globals.css)
+- **Format**: CSS custom properties with OKLCH color space
+- **Example**:
+  ```css
+  :root {
+    --background: oklch(1 0 0);
+    --foreground: oklch(0.145 0 0);
+    --primary: oklch(0.205 0 0);
+    --primary-foreground: oklch(0.985 0 0);
+  }
+  ```
+
+### Color Mapping
+- **Location**: [apps/v4/registry/registry-base-colors.ts](mdc:apps/v4/registry/registry-base-colors.ts)
+- **Purpose**: Maps semantic color names to actual color values
+- **Structure**: Light/dark theme mappings with CSS variable references
+
+## 2. Component Library
+
+### Component Architecture
+- **Location**: [apps/v4/registry/new-york-v4/ui/](mdc:apps/v4/registry/new-york-v4/ui/)
+- **Pattern**: Headless components with Radix UI primitives
+- **Structure**: Each component has variants, sizes, and states
+- **Example**: [Button component](mdc:apps/v4/registry/new-york-v4/ui/button.tsx)
+
+### Component Registry
+- **Location**: [apps/v4/registry/index.ts](mdc:apps/v4/registry/index.ts)
+- **Purpose**: Central registry for all components, blocks, charts, and utilities
+- **Schema**: JSON schema for component metadata
+
+### Component Distribution
+- **CLI Tool**: [packages/shadcn/src/](mdc:packages/shadcn/src/)
+- **Commands**: Add, build, diff, init, migrate
+- **Registry System**: Flat-file schema for component distribution
+
+## 3. Frameworks & Libraries
+
+### Core Technologies
+- **React**: Primary UI framework with TypeScript
+- **Next.js**: App Router for server/client components
+- **Tailwind CSS v4**: Utility-first CSS framework
+- **Radix UI**: Headless component primitives
+- **Lucide React**: Icon library
+
+### Build System
+- **Turborepo**: Monorepo build system
+- **pnpm**: Package manager with workspaces
+- **TypeScript**: Type-safe development
+
+### Styling Libraries
+- **class-variance-authority**: Component variant management
+- **clsx**: Conditional className utility
+- **tailwind-merge**: Tailwind class merging
+- **tw-animate-css**: Animation utilities
+
+## 4. Asset Management
+
+### Public Assets
+- **Location**: [apps/v4/public/](mdc:apps/v4/public/)
+- **Structure**: Organized by type (images, avatars, examples)
+- **Optimization**: Next.js Image component for optimization
+
+### Registry Assets
+- **Location**: [apps/v4/public/r/](mdc:apps/v4/public/r/)
+- **Purpose**: Static JSON files for registry data
+- **Types**: Colors, icons, styles, themes
+
+## 5. Icon System
+
+### Icon Library
+- **Primary**: Lucide React
+- **Location**: Imported from `lucide-react`
+- **Naming**: PascalCase component names
+- **Usage**: `<IconName className="size-4" />`
+
+### Icon Integration
+- **Configuration**: [apps/v4/components.json](mdc:apps/v4/components.json)
+- **Property**: `"iconLibrary": "lucide"`
+- **Transformation**: [packages/shadcn/src/utils/transformers/transform-icons.ts](mdc:packages/shadcn/src/utils/transformers/transform-icons.ts)
+
+## 6. Styling Approach
+
+### CSS Methodology
+- **Primary**: Tailwind CSS v4 with utility classes
+- **CSS Variables**: Semantic color system with OKLCH
+- **Custom Properties**: Design token integration
+- **Responsive**: Mobile-first responsive design
+
+### Global Styles
+- **Location**: [apps/v4/styles/globals.css](mdc:apps/v4/styles/globals.css)
+- **Features**:
+  - Dark mode support with `@custom-variant dark`
+  - CSS custom properties for theming
+  - Base layer styles for typography and spacing
+  - Component layer for reusable patterns
+
+### Theme System
+- **Configuration**: [apps/v4/content/docs/(root)/theming.mdx](mdc:apps/v4/content/docs/(root)/theming.mdx)
+- **Options**: CSS variables (recommended) or utility classes
+- **Convention**: `background`/`foreground` semantic naming
+- **Color Modes**: Light and dark theme support
+
+## 7. Project Structure
+
+### Monorepo Organization
+```
+apps/
+├── v4/                    # Main application (v4)
+│   ├── app/              # Next.js App Router
+│   ├── components/       # Shared components
+│   ├── content/          # Documentation content
+│   ├── registry/         # Component registry
+│   └── styles/           # Global styles
+└── www/                  # Documentation website
+packages/
+├── shadcn/              # CLI tool
+└── tests/               # Test utilities
+```
+
+### Component Organization
+- **UI Components**: [apps/v4/registry/new-york-v4/ui/](mdc:apps/v4/registry/new-york-v4/ui/)
+- **Blocks**: [apps/v4/registry/new-york-v4/blocks/](mdc:apps/v4/registry/new-york-v4/blocks/)
+- **Charts**: [apps/v4/registry/new-york-v4/charts/](mdc:apps/v4/registry/new-york-v4/charts/)
+- **Examples**: [apps/v4/registry/new-york-v4/examples/](mdc:apps/v4/registry/new-york-v4/examples/)
+
+### File Naming Conventions
+- **Components**: kebab-case.tsx
+- **Utilities**: camelCase.ts
+- **Constants**: UPPER_SNAKE_CASE
+- **Types**: PascalCase with .d.ts extension
+
+## 8. Figma MCP Integration
+
+### MCP Service
+- **Location**: [apps/v4/lib/figma-mcp-actual.ts](mdc:apps/v4/lib/figma-mcp-actual.ts)
+- **Purpose**: Real-time Figma component integration
+- **Functions**:
+  - `getCode()`: Fetch Code Connect definitions
+  - `getVariableDefs()`: Get design tokens
+  - `getCodeConnectMap()`: Component mapping
+
+### Test Interface
+- **Location**: [apps/v4/app/(app)/(root)/test/](mdc:apps/v4/app/(app)/(root)/test/)
+- **Purpose**: Test Figma MCP integration
+- **Features**:
+  - URL parsing for Figma links
+  - Component rendering preview
+  - Code generation display
+  - Real-time MCP connection status
+
+### Code Generation
+- **React Components**: TypeScript with proper typing
+- **HTML Output**: Semantic markup with Tailwind classes
+- **CSS Variables**: OKLCH color space integration
+- **Responsive Design**: Mobile-first approach
+
+## 9. Development Patterns
+
+### Component Patterns
+```typescript
+// Standard component structure
+interface ComponentProps {
+  variant?: 'default' | 'destructive' | 'outline'
+  size?: 'default' | 'sm' | 'lg'
+  children?: React.ReactNode
+}
+
+const Component = React.forwardRef<HTMLButtonElement, ComponentProps>(
+  ({ variant = 'default', size = 'default', children, ...props }, ref) => {
+    return (
+      <button
+        ref={ref}
+        className={cn(
+          'base-classes',
+          variantStyles[variant],
+          sizeStyles[size]
+        )}
+        {...props}
+      >
+        {children}
+      </button>
+    )
+  }
+)
+```
+
+### Styling Patterns
+```typescript
+// Variant management with CVA
+const buttonVariants = cva(
+  'inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50',
+  {
+    variants: {
+      variant: {
+        default: 'bg-primary text-primary-foreground shadow-xs hover:bg-primary/90',
+        destructive: 'bg-destructive text-destructive-foreground hover:bg-destructive/90',
+        outline: 'border border-input bg-background hover:bg-accent hover:text-accent-foreground',
+      },
+      size: {
+        default: 'h-9 px-4 py-2',
+        sm: 'h-8 rounded-md px-3 text-xs',
+        lg: 'h-10 rounded-md px-8',
+      },
+    },
+    defaultVariants: {
+      variant: 'default',
+      size: 'default',
+    },
+  }
+)
+```
+
+### Utility Functions
+```typescript
+// Class name merging utility
+import { cn } from '@/lib/utils'
+
+// Usage
+className={cn(
+  'base-classes',
+  conditional && 'conditional-classes',
+  variantStyles[variant]
+)}
+```
+
+## 10. Integration Guidelines
+
+### Figma to Code Workflow
+1. **Parse Figma URL**: Extract fileKey and nodeId
+2. **Fetch MCP Data**: Get Code Connect definitions and variables
+3. **Generate Code**: Create React components and HTML
+4. **Apply Styling**: Use Tailwind classes and CSS variables
+5. **Test Integration**: Verify component rendering and functionality
+
+### Code Connect Integration
+- **Props Mapping**: Figma properties to React props
+- **Style Translation**: Figma styles to Tailwind classes
+- **Component Variants**: Figma variants to CVA variants
+- **Responsive Design**: Figma constraints to responsive classes
+
+### Design Token Integration
+- **Color Mapping**: Figma colors to CSS variables
+- **Typography**: Figma text styles to Tailwind classes
+- **Spacing**: Figma spacing to Tailwind spacing scale
+- **Border Radius**: Figma corner radius to Tailwind radius
+
+This comprehensive design system provides the foundation for seamless Figma MCP integration while maintaining consistency, scalability, and developer experience.
+description:
+globs:
+alwaysApply: false
+---

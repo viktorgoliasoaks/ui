@@ -4,7 +4,7 @@
   "private": true,
   "type": "module",
   "figma": {
-    "parser": "react"
+    "parser": "html"
   },
   "scripts": {
     "dev": "next dev --turbopack --port 4000",
