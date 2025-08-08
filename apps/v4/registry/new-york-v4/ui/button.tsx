@@ -114,3 +114,6 @@ function FigmaCodeConnectButton({
 }
 
 export { Button, buttonVariants, FigmaCodeConnectButton }
+
+// Add default exports for Figma compatibility
+export default Button
