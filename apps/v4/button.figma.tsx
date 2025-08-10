@@ -1,4 +1,6 @@
 import figma from "@figma/code-connect"
+import React from "react"
+import { Button } from "@/registry/new-york-v4/ui/button"
 
 /**
  * Button component connected to Figma Design System
@@ -6,10 +8,11 @@ import figma from "@figma/code-connect"
  */
 
 figma.connect(
+  Button,
   "https://www.figma.com/design/rgqHmkJX2Uw9PhGoon1OIh/MCP-Code-Connect-DS?node-id=28-1289&m=dev",
   {
     props: {
-      children: figma.string("Button Text"),
+      buttontext: figma.string("Button Text"),
       variant: figma.enum("Variant", {
         "Default": "default",
         "Secondary": "secondary", 
@@ -25,10 +28,12 @@ figma.connect(
         "Icon": "icon"
       })
     },
-    example: ({ children, variant, size }) => {
-      return `<Button variant="${variant}" size="${size}">
-  ${children}
-</Button>`
+    example: (props) => {
+      // Return proper React JSX using React.createElement
+      return <Button
+              variant={props.variant}
+              size={props.size}>{props.buttontext}
+              </Button>
     },
   },
 )
