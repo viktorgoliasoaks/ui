@@ -1,7 +1,6 @@
 "use client"
 
 import { FigmaCodeConnectButton } from "@/registry/new-york-v4/ui/button"
-import { Client } from "figma-js"
 import { useState } from "react"
 
 export function FigmaButton() {
@@ -10,32 +9,19 @@ export function FigmaButton() {
 
   const handleFigmaClick = async () => {
     try {
-      // You'll need to get your Figma access token from https://www.figma.com/developers/api#access-tokens
-      const accessToken = process.env.NEXT_PUBLIC_FIGMA_ACCESS_TOKEN
+      // Call our secure server-side API instead of exposing token to client
+      const response = await fetch('/api/figma')
       
-      if (!accessToken) {
-        console.log("Please set NEXT_PUBLIC_FIGMA_ACCESS_TOKEN environment variable")
-        // Open the new Figma design system
-        window.open("https://www.figma.com/design/rgqHmkJX2Uw9PhGoon1OIh/MCP-Code-Connect-DS?node-id=28-1289&m=dev", "_blank")
-        return
-      }
-
-      // Initialize Figma client
-      const client = Client({
-        personalAccessToken: accessToken
-      })
-
-      // Open the new design system file
-      const fileKey = "rgqHmkJX2Uw9PhGoon1OIh" // New design system file key
-      
-      try {
-        const response = await client.file(fileKey)
-        console.log("Figma Design System loaded:", response.data.name)
-      } catch (error) {
-        console.log("Could not load file info, but will open in browser")
+      if (response.ok) {
+        const data = await response.json()
+        console.log("Figma Design System loaded:", data.data.name)
+      } else {
+        const errorData = await response.json()
+        console.log("Figma API error:", errorData.error)
+        console.log("Suggestion:", errorData.suggestion)
       }
       
-      // Open the new design system in Figma
+      // Open the new design system in Figma (always works regardless of API status)
       window.open("https://www.figma.com/design/rgqHmkJX2Uw9PhGoon1OIh/MCP-Code-Connect-DS?node-id=28-1289&m=dev", "_blank")
       
     } catch (error) {
