@@ -16,8 +16,29 @@ export async function GET(request: NextRequest) {
       }, { status: 404 })
     }
     
-    // Get additional component data (React source, etc.)
-    const componentData = await mcpDataManager.getComponentData(mcpData.nodeId)
+    // Try to infer component name from MCP data
+    let componentName = 'checkbox' // Default for checkbox
+    if (mcpData.mapping) {
+      const firstMapping = Object.values(mcpData.mapping)[0] as any
+      if (firstMapping?.componentName) {
+        componentName = firstMapping.componentName.toLowerCase()
+      }
+    }
+    
+    // Get React component source
+    const reactComponent = await mcpDataManager.readReactComponent(componentName)
+    const codeConnectFile = await mcpDataManager.findCodeConnectFile(mcpData.nodeId)
+    
+    const componentData = {
+      nodeId: mcpData.nodeId,
+      figmaData: mcpData,
+      reactCode: reactComponent?.code || null,
+      reactPath: reactComponent?.path || null,
+      codeConnectFile: codeConnectFile?.code || null,
+      published: mcpData.published || false,
+      timestamp: mcpData.timestamp || new Date().toISOString(),
+      error: mcpData.error
+    }
     
     console.log(`✅ API: Returning current component data for ${mcpData.nodeId}`)
     console.log(`   - Published: ${componentData.published}`)

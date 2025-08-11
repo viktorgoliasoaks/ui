@@ -1,7 +1,7 @@
 import { Metadata } from "next"
-import TestClient from "./test/test-client"
+import TestClient from "./test-client"
 
-const title = "Figma Code Connect Demo"
+const title = "MCP Data Preview"
 const description = "Demonstrating Figma Code Connect integration with published code panel and component testing"
 
 export const dynamic = "force-static"

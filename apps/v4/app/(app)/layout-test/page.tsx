@@ -1,8 +1,8 @@
 import { Metadata } from "next"
-import TestClient from "./test-client"
+import DynamicLayout from "@/components/dynamic-layout"
 
-const title = "Figma Component Test"
-const description = "Test Figma components with live preview and code generation"
+const title = "Layout Test - Frame Components"
+const description = "Generated layout from Figma frame components with Code Connect"
 
 export const dynamic = "force-static"
 export const revalidate = false
@@ -31,6 +31,6 @@ export const metadata: Metadata = {
   },
 }
 
-export default function TestPage() {
-  return <TestClient />
-} 
+export default function LayoutTestPage() {
+  return <DynamicLayout />
+}

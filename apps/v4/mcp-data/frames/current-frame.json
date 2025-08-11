@@ -1,0 +1,28 @@
+{
+  "frameNodeId": "22:1167",
+  "frameCode": "import { Button } from \"@/registry/new-york-v4/ui/button\"\nimport { Checkbox } from \"@/registry/new-york-v4/ui/checkbox\"\n\nconst imgVector = \"http://localhost:3845/assets/e0c610bd676ee3149f9c3691677842574bb7e73d.svg\";\nfunction IconCheck() {\n    return <div className=\"relative size-full\" data-name=\"Icon / Check\" id=\"node-91_262\"><div className=\"absolute bottom-[29.17%] left-[16.67%] right-[16.67%] top-1/4\" data-name=\"Vector\" id=\"node-91_263\"><div className=\"absolute inset-[-9.09%_-6.25%]\" style={{ \"--stroke-0\": \"rgba(10, 10, 10, 1)\" } as React.CSSProperties}><img alt className=\"block max-w-none size-full\" src={imgVector}/></div></div></div>;\n}\nexport default function LayoutTest() {\n    return <div className=\"bg-[#ffffff] box-border content-stretch flex flex-col gap-2.5 items-center justify-center px-28 py-[124px] relative size-full\" data-name=\"layout-test\" id=\"node-22_1167\"><CodeConnectSnippet data-name=\"Button\" id=\"node-111_351\" data-snippet-language=\"React\"><Button variant=\"default\">Adjusted text\n              </Button></CodeConnectSnippet><CodeConnectSnippet data-name=\"Checkbox\" id=\"node-112_355\" data-snippet-language=\"React\">function Example() {\n    // If no text is shown, return just the checkbox\n    }\n    // If no text is shown, return just the checkbox\n    if (!true) {}\n        return <Checkbox checked/>;\n    }\n    // If text is shown, wrap with label and description\n    return (<div className=\"flex items-start space-x-2\">\n          <Checkbox checked id=\"checkbox-with-text\"/>\n          <div className=\"grid gap-1.5 leading-none\">\n            <label htmlFor=\"checkbox-with-text\" className=\"text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70\">\n              adjusted text\n            </label>\n            {true && (<p className=\"text-sm text-muted-foreground\">\n                text different from component level placeholder\n              </p>)}\n          </div>\n        </div>);\n}</CodeConnectSnippet></div>;\n}",
+  "children": [
+    {
+      "nodeId": "111:351",
+      "componentName": "Button",
+      "snippet": "<Button variant=\"default\">Adjusted text\n              </Button>",
+      "imports": ["import { Button } from \"@/registry/new-york-v4/ui/button\""],
+      "publishedCode": "<Button variant=\"default\">Adjusted text\n              </Button>"
+    },
+    {
+      "nodeId": "112:355",
+      "componentName": "Checkbox",
+      "snippet": "function Example() {\n    // If no text is shown, return just the checkbox\n    if (!true) {\n        return <Checkbox checked/>;\n    }\n    // If text is shown, wrap with label and description\n    return (<div className=\"flex items-start space-x-2\">\n          <Checkbox checked id=\"checkbox-with-text\"/>\n          <div className=\"grid gap-1.5 leading-none\">\n            <label htmlFor=\"checkbox-with-text\" className=\"text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70\">\n              adjusted text\n            </label>\n            {true && (<p className=\"text-sm text-muted-foreground\">\n                text different from component level placeholder\n              </p>)}\n          </div>\n        </div>);\n}",
+      "imports": ["import { Checkbox } from \"@/registry/new-york-v4/ui/checkbox\""],
+      "publishedCode": "function Example() {\n    // If no text is shown, return just the checkbox\n    if (!true) {\n        return <Checkbox checked/>;\n    }\n    // If text is shown, wrap with label and description\n    return (<div className=\"flex items-start space-x-2\">\n          <Checkbox checked id=\"checkbox-with-text\"/>\n          <div className=\"grid gap-1.5 leading-none\">\n            <label htmlFor=\"checkbox-with-text\" className=\"text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70\">\n              adjusted text\n            </label>\n            {true && (<p className=\"text-sm text-muted-foreground\">\n                text different from component level placeholder\n              </p>)}\n          </div>\n        </div>);\n}"
+    }
+  ],
+  "imports": [
+    "import { Button } from \"@/registry/new-york-v4/ui/button\"",
+    "import { Checkbox } from \"@/registry/new-york-v4/ui/checkbox\""
+  ],
+  "timestamp": "2025-08-11T08:00:00.000Z",
+  "source": "figma-mcp",
+  "published": true,
+  "error": null
+}

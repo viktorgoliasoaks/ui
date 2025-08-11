@@ -21,7 +21,12 @@
     "mcp:fetch": "tsx scripts/mcp-fetch.ts",
     "mcp:watch": "tsx scripts/mcp-watcher.ts",
     "mcp:button": "tsx scripts/mcp-fetch.ts 28:1289",
-    "mcp:input": "tsx scripts/mcp-fetch.ts 12:272"
+    "mcp:input": "tsx scripts/mcp-fetch.ts 12:272",
+    "mcp:checkbox": "tsx scripts/mcp-fetch.ts 91:366",
+    "frame:fetch": "tsx scripts/frame-fetch.ts",
+    "frame:test": "tsx scripts/frame-fetch.ts 22:1167",
+    "frame:cli": "tsx scripts/frame-cli.ts",
+    "frame:list": "tsx scripts/frame-cli.ts list"
   },
   "dependencies": {
     "@dnd-kit/core": "^6.3.1",

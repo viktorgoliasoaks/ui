@@ -41,6 +41,7 @@ export default function TestClientTrueMCP() {
   const [hasCodeConnect, setHasCodeConnect] = useState<boolean>(false)
   const [codeConnectInfo, setCodeConnectInfo] = useState<any>({})
   const [mcpStatus, setMcpStatus] = useState<'connected' | 'disconnected' | 'checking'>('checking')
+  const [componentName, setComponentName] = useState<string>("")
 
 
   // Get published code from Figma MCP
@@ -130,13 +131,31 @@ export default function TestClientTrueMCP() {
           console.log("⚠️ No published code found")
         }
         
-        // 2. Set Code Connect mapping metadata
+        // 2. Set Code Connect mapping metadata and extract component name
+        let extractedComponentName = ""
         if (mcpData.mapping && Object.keys(mcpData.mapping).length > 0) {
           setCodeConnectInfo(mcpData.mapping)
           console.log("✅ Code Connect mapping loaded from local MCP file")
           
+          // Extract component name from the first mapping entry
+          const firstMapping = Object.values(mcpData.mapping)[0] as any
+          if (firstMapping?.componentName) {
+            extractedComponentName = firstMapping.componentName
+            console.log(`✅ Component name extracted: ${firstMapping.componentName}`)
+          } else {
+            extractedComponentName = "Unknown Component"
+          }
         } else {
           setCodeConnectInfo({})
+        }
+        
+        // Set component name (use extracted name or fallback to nodeId)
+        if (extractedComponentName) {
+          setComponentName(extractedComponentName)
+        } else if (mcpData.nodeId) {
+          setComponentName(`Component ${mcpData.nodeId}`)
+        } else {
+          setComponentName("")
         }
         
         // 3. Set component metadata (not the raw MCP data)
@@ -173,6 +192,7 @@ export default function TestClientTrueMCP() {
 // or
 // npm run mcp:button    (for button example)`)
         setCodeConnectInfo({})
+        setComponentName("")
         setHasCodeConnect(false)
         setError(result.error || "No current component data available")
         console.log("⚠️ No current component found in local files")
@@ -206,9 +226,16 @@ export default function TestClientTrueMCP() {
         {/* Header */}
       <div className="text-center space-y-2">
         <h1 className="text-3xl font-bold">Code Connect Component Inspector</h1>
-                <p className="text-muted-foreground">
+        <p className="text-muted-foreground">
           🔄 Real MCP Data Bridge: Figma ↔ Cursor ↔ Web App
         </p>
+        {componentName && (
+          <div className="mt-4">
+            <Badge variant="secondary" className="text-sm px-3 py-1">
+              Current Component: <span className="font-semibold ml-1">{componentName}</span>
+            </Badge>
+          </div>
+        )}
       </div>
 
 
@@ -220,17 +247,20 @@ export default function TestClientTrueMCP() {
       {/* MCP Data Preview Section */}
       <div id="code-preview" className="space-y-6">
         <h3 className="text-lg font-semibold text-gray-900">
-          MCP Data Preview
-            </h3>
+          MCP Data Preview{componentName ? ` for: ${componentName}` : ''}
+        </h3>
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           
           {/* Published Code Card */}
           <Card className="border-2 border-purple-200 rounded-lg">
             <CardContent className="p-6">
-              <h4 className="text-sm font-medium text-gray-700 flex items-center gap-2 mb-3">
-                <span className="w-3 h-3 bg-purple-500 rounded-full"></span>
-                Published Code (publishedCode)
-                </h4>
+              <h4 className="text-sm font-medium text-gray-700 flex items-center justify-between mb-3">
+                <div className="flex items-center gap-2">
+                  <span className="w-3 h-3 bg-purple-500 rounded-full"></span>
+                  Published Code (publishedCode)
+                </div>
+                <span className="text-xs text-gray-500 font-mono">source: figma MCP</span>
+              </h4>
               <div className="bg-gray-900 rounded-lg p-4 border border-gray-700 max-h-80 overflow-auto">
                 <pre className="text-xs text-gray-300 font-mono">
                     <code className="text-gray-300">
@@ -244,9 +274,12 @@ export default function TestClientTrueMCP() {
           {/* React Code Card */}
           <Card className="border-2 border-blue-200 rounded-lg">
             <CardContent className="p-6">
-              <h4 className="text-sm font-medium text-gray-700 flex items-center gap-2 mb-3">
-                <span className="w-3 h-3 bg-blue-500 rounded-full"></span>
-                React Code (reactCode)
+              <h4 className="text-sm font-medium text-gray-700 flex items-center justify-between mb-3">
+                <div className="flex items-center gap-2">
+                  <span className="w-3 h-3 bg-blue-500 rounded-full"></span>
+                  React Code (reactCode)
+                </div>
+                <span className="text-xs text-gray-500 font-mono">source: local repository</span>
               </h4>
               <div className="bg-gray-900 rounded-lg p-4 border border-gray-700 max-h-80 overflow-auto">
                 <pre className="text-xs text-gray-300 font-mono">
@@ -261,10 +294,13 @@ export default function TestClientTrueMCP() {
           {/* Component Data Card */}
           <Card className="border-2 border-green-200 rounded-lg">
             <CardContent className="p-6">
-              <h4 className="text-sm font-medium text-gray-700 flex items-center gap-2 mb-3">
-                <span className="w-3 h-3 bg-green-500 rounded-full"></span>
-                Component Metadata (componentData)
-                </h4>
+              <h4 className="text-sm font-medium text-gray-700 flex items-center justify-between mb-3">
+                <div className="flex items-center gap-2">
+                  <span className="w-3 h-3 bg-green-500 rounded-full"></span>
+                  Component Metadata (componentData)
+                </div>
+                <span className="text-xs text-gray-500 font-mono">source: figma MCP</span>
+              </h4>
               <div className="bg-gray-900 rounded-lg p-4 border border-gray-700 max-h-80 overflow-auto">
                 <pre className="text-xs text-gray-300 font-mono">
                     <code className="text-gray-300">
@@ -278,9 +314,12 @@ export default function TestClientTrueMCP() {
           {/* Code Connect Info Card */}
           <Card className="border-2 border-orange-200 rounded-lg">
             <CardContent className="p-6">
-              <h4 className="text-sm font-medium text-gray-700 flex items-center gap-2 mb-3">
-                <span className="w-3 h-3 bg-orange-500 rounded-full"></span>
-                Code Connect Info (codeConnectInfo)
+              <h4 className="text-sm font-medium text-gray-700 flex items-center justify-between mb-3">
+                <div className="flex items-center gap-2">
+                  <span className="w-3 h-3 bg-orange-500 rounded-full"></span>
+                  Code Connect Info (codeConnectInfo)
+                </div>
+                <span className="text-xs text-gray-500 font-mono">source: figma MCP</span>
               </h4>
               <div className="bg-gray-900 rounded-lg p-4 border border-gray-700 max-h-80 overflow-auto">
                 <pre className="text-xs text-gray-300 font-mono">
