@@ -6,7 +6,10 @@ import { generateSimpleLayout } from '@/lib/layout-generator'
 
 // Import the actual components that we know exist
 import { Button } from '@/registry/new-york-v4/ui/button'
+import { Input } from '@/registry/new-york-v4/ui/input'
 import { Checkbox } from '@/registry/new-york-v4/ui/checkbox'
+import { Alert, AlertTitle, AlertDescription } from '@/registry/new-york-v4/ui/alert'
+import { CheckCircle, AlertCircle } from 'lucide-react'
 
 export default function DynamicLayout() {
   const [frameData, setFrameData] = useState<FrameDataResult | null>(null)
@@ -52,13 +55,31 @@ export default function DynamicLayout() {
           const variantMatch = buttonProps.match(/variant="([^"]*)"/)
           const variant = variantMatch ? variantMatch[1] : 'default'
           
+          // Check if w-full class is present
+          const hasFullWidth = buttonProps.includes('w-full')
+          
           // Extract text content
           const textMatch = publishedCode.match(/>([^<]+)</)
           const text = textMatch ? textMatch[1].trim() : 'Button'
           
-          return <Button variant={variant as any}>{text}</Button>
+          return <Button className={hasFullWidth ? "w-full" : ""} variant={variant as any}>{text}</Button>
         }
-        return <Button>Button</Button>
+        return <Button className="w-full">Button</Button>
+
+      case 'input':
+        // Extract input props from the published code
+        const inputMatch = publishedCode.match(/<Input\s+([^>]*)\/>/)
+        if (inputMatch) {
+          const inputProps = inputMatch[1]
+          const placeholderMatch = inputProps.match(/placeholder="([^"]*)"/)
+          const placeholder = placeholderMatch ? placeholderMatch[1] : 'Placeholder'
+          
+          // Check if w-full class is present
+          const hasFullWidth = inputProps.includes('w-full')
+          
+          return <Input className={hasFullWidth ? "w-full" : ""} placeholder={placeholder} />
+        }
+        return <Input className="w-full" placeholder="Input placeholder" />
 
       case 'checkbox':
         // For the checkbox, we need to render the complex component
@@ -75,6 +96,46 @@ export default function DynamicLayout() {
               </p>
             </div>
           </div>
+        )
+
+      case 'alert':
+        // Extract alert props from the published code
+        const alertMatch = publishedCode.match(/<Alert\s+([^>]*)>/)
+        if (alertMatch) {
+          const alertProps = alertMatch[1]
+          const variantMatch = alertProps.match(/variant="([^"]*)"/)
+          const variant = variantMatch ? variantMatch[1] : 'default'
+          
+          // Check if there's an icon in the published code
+          const hasIcon = publishedCode.includes('<AlertCircle') || publishedCode.includes('<CheckCircle')
+          
+          // Extract title and description content
+          const titleMatch = publishedCode.match(/<AlertTitle>([^<]+)<\/AlertTitle>/)
+          const title = titleMatch ? titleMatch[1].trim() : 'Alert Title'
+          
+          const descriptionMatch = publishedCode.match(/<AlertDescription>([^<]+)<\/AlertDescription>/)
+          const description = descriptionMatch ? descriptionMatch[1].trim() : 'Alert description'
+          
+          return (
+            <Alert variant={variant as any}>
+              {hasIcon && (
+                variant === "destructive" ? (
+                  <AlertCircle className="h-4 w-4" />
+                ) : (
+                  <CheckCircle className="h-4 w-4" />
+                )
+              )}
+              <AlertTitle>{title}</AlertTitle>
+              <AlertDescription>{description}</AlertDescription>
+            </Alert>
+          )
+        }
+        return (
+          <Alert variant="default">
+            <CheckCircle className="h-4 w-4" />
+            <AlertTitle>Alert Title</AlertTitle>
+            <AlertDescription>Alert description</AlertDescription>
+          </Alert>
         )
 
       default:

@@ -21,7 +21,7 @@
     "mcp:fetch": "tsx scripts/mcp-fetch.ts",
     "mcp:watch": "tsx scripts/mcp-watcher.ts",
     "mcp:button": "tsx scripts/mcp-fetch.ts 28:1289",
-    "mcp:input": "tsx scripts/mcp-fetch.ts 12:272",
+    "mcp:input": "tsx scripts/mcp-fetch.ts 81:2039",
     "mcp:checkbox": "tsx scripts/mcp-fetch.ts 91:366",
     "frame:fetch": "tsx scripts/frame-fetch.ts",
     "frame:test": "tsx scripts/frame-fetch.ts 22:1167",

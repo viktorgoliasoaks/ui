@@ -9,26 +9,49 @@ import { Input } from "./registry/new-york-v4/ui/input"
 
 figma.connect(
   Input,
-  "https://www.figma.com/design/rgqHmkJX2Uw9PhGoon1OIh/MCP-Code-Connect-DS?node-id=81-2039&t=aFXYcC276ZBh3Qpz-1",
+  "https://www.figma.com/design/rgqHmkJX2Uw9PhGoon1OIh/MCP-Code-Connect-DS?node-id=81-2039&t=RlLEGH9QbXYTHXjC-1",
   {
     props: {
       placeholder: figma.string("Placeholder Text"),
-      type: figma.enum("Input Type", {
-        "Text": "text",
-        "Email": "email",
-        "Password": "password",
-        "Number": "number",
-        "Search": "search",
-        "Tel": "tel",
-        "URL": "url"
+      labelText: figma.string("Label Text"),
+      showLabel: figma.boolean("Show Label"),
+      descriptionText: figma.string("Description Text"),
+      showDescription: figma.boolean("Show Description"),
+      horizontalLayout: figma.enum("Horizontal Layout", {
+        "No": false,
+        "Yes": true
       }),
-      disabled: figma.boolean("Disabled"),
-      required: figma.boolean("Required"),
-      value: figma.string("Value")
+      variant: figma.enum("Variant", {
+        "Default": "text",
+        "File": "file"
+      }),
+      state: figma.enum("State", {
+        "Default": "default",
+        "Focus": "focus",
+        "Filled": "filled",
+        "Disabled": "disabled",
+        "Error": "error",
+        "Error (Focus)": "error-focus"
+      })
     },
-    example: (props) => {
-      // Return proper React JSX like Button component
-      return <Input placeholder={props.placeholder} type={props.type} disabled={props.disabled} required={props.required} value={props.value} />
-    },
+    example: (props) => (
+      <div className="grid w-full items-center gap-1.5">
+        {props.showLabel && (
+          <label className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+            {props.labelText}
+          </label>
+        )}
+        <Input 
+          type={props.variant === "file" ? "file" : "text"}
+          disabled={props.state === "disabled"}
+          className={props.state === "error" || props.state === "error-focus" ? "border-destructive w-full" : "w-full"}
+        />
+        {props.showDescription && (
+          <p className="text-sm text-muted-foreground">
+            {props.descriptionText}
+          </p>
+        )}
+      </div>
+    ),
   },
 ) 

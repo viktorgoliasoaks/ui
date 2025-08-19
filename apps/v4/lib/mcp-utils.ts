@@ -104,7 +104,9 @@ export class MCPDataManager {
   async findCodeConnectFile(nodeId: string): Promise<{ code: string; path: string } | null> {
     const possibleFiles = [
       'button.figma.tsx',
-      'input.figma.ts',
+      'input.figma.tsx',
+      'checkbox.figma.tsx',
+      'alert.figma.tsx',
       // Add more as needed
     ]
     
@@ -143,7 +145,18 @@ export class MCPDataManager {
     
     // Try to infer component name from nodeId or MCP data
     let componentName = 'button' // Default fallback
-    if (mcpData?.mapping?.component) {
+    
+    // Map known node IDs to component names
+    const nodeIdToComponent: Record<string, string> = {
+      '28:1289': 'button',
+      '91:366': 'checkbox',
+      '81:2039': 'input',
+      '139-364': 'alert'
+    }
+    
+    if (nodeIdToComponent[nodeId]) {
+      componentName = nodeIdToComponent[nodeId]
+    } else if (mcpData?.mapping?.component) {
       componentName = mcpData.mapping.component.toLowerCase()
     }
 

@@ -1,7 +1,16 @@
 {
   "codeConnect": {
     "parser": "react",
-    "include": ["**/*.figma.{ts,tsx,js,jsx}"],
-    "exclude": ["node_modules/**"]
+    "include": [
+      "**/*.figma.{ts,tsx,js,jsx}",
+      "apps/v4/registry/**/*.{ts,tsx}",
+      "apps/v4/components/**/*.{ts,tsx}"
+    ],
+    "exclude": ["node_modules/**"],
+    "paths": {
+      "@/*": ["./apps/v4/*"],
+      "@/registry/*": ["./apps/v4/registry/*"],
+      "@/components/*": ["./apps/v4/components/*"]
+    }
   }
 }

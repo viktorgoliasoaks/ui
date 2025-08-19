@@ -27,35 +27,27 @@ figma.connect(
       showText: figma.boolean("Show Text"),
       showDescription: figma.boolean("Show Description")
     },
-    example: (props) => {
-      // If no text is shown, return just the checkbox
-      if (!props.showText) {
-        return <Checkbox checked={props.checked} disabled={props.disabled} />
-      }
-      
-      // If text is shown, wrap with label and description
-      return (
-        <div className="flex items-start space-x-2">
-          <Checkbox 
-            checked={props.checked} 
-            disabled={props.disabled}
-            id="checkbox-with-text"
-          />
-          <div className="grid gap-1.5 leading-none">
-            <label
-              htmlFor="checkbox-with-text"
-              className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-            >
-              {props.labelText}
-            </label>
-            {props.showDescription && (
-              <p className="text-sm text-muted-foreground">
-                {props.descriptionText}
-              </p>
-            )}
-          </div>
+    example: (props) => (
+      <div className="flex items-start space-x-2">
+        <Checkbox 
+          checked={props.checked} 
+          disabled={props.disabled}
+          id="checkbox-with-text"
+        />
+        <div className="grid gap-1.5 leading-none">
+          <label
+            htmlFor="checkbox-with-text"
+            className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+          >
+            {props.labelText}
+          </label>
+          {props.showDescription && (
+            <p className="text-sm text-muted-foreground">
+              {props.descriptionText}
+            </p>
+          )}
         </div>
-      )
-    },
+      </div>
+    ),
   },
 )

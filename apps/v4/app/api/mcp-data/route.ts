@@ -18,7 +18,18 @@ export async function GET(request: NextRequest) {
     
     // Try to infer component name from MCP data
     let componentName = 'checkbox' // Default for checkbox
-    if (mcpData.mapping) {
+    
+    // Map known node IDs to component names
+    const nodeIdToComponent: Record<string, string> = {
+      '28:1289': 'button',
+      '91:366': 'checkbox',
+      '81:2039': 'input',
+      '139-364': 'alert'
+    }
+    
+    if (nodeIdToComponent[mcpData.nodeId]) {
+      componentName = nodeIdToComponent[mcpData.nodeId]
+    } else if (mcpData.mapping) {
       const firstMapping = Object.values(mcpData.mapping)[0] as any
       if (firstMapping?.componentName) {
         componentName = firstMapping.componentName.toLowerCase()

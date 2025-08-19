@@ -71,11 +71,19 @@ function extractPublishedSnippet(fullCode: string | null): string {
 
   // For input components
   if (fullCode.includes('input') || fullCode.includes('Input')) {
-    return `<input
-  type="text"
-  class="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50"
-  placeholder="Enter text..."
-/>`
+    return `<div class="grid w-full max-w-sm items-center gap-1.5">
+  <label class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+    Email
+  </label>
+  <input
+    type="email"
+    class="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50"
+    placeholder="Enter your email..."
+  />
+  <p class="text-sm text-muted-foreground">
+    We'll never share your email with anyone else.
+  </p>
+</div>`
   }
 
   // Fallback: try to extract simple HTML from JSX returns
@@ -139,14 +147,18 @@ export async function fetchMCPData(nodeId: string): Promise<MCPDataResult> {
     if (result.mapping && result.mapping.variants) {
       result.variants = result.mapping.variants
     } else if (result.mapping && typeof result.mapping === 'object') {
-      // Try to extract variants from different possible structures
-      const mappingStr = JSON.stringify(result.mapping)
-      if (mappingStr.includes('variant') || mappingStr.includes('Variant')) {
-        // For button component, we know the expected variants
-        if (nodeId === '28:1289') {
-          result.variants = ['Default', 'Secondary', 'Destructive', 'Outline', 'Ghost', 'Link']
-        }
+          // Try to extract variants from different possible structures
+    const mappingStr = JSON.stringify(result.mapping)
+    if (mappingStr.includes('variant') || mappingStr.includes('Variant')) {
+      // For button component, we know the expected variants
+      if (nodeId === '28:1289') {
+        result.variants = ['Default', 'Secondary', 'Destructive', 'Outline', 'Ghost', 'Link']
       }
+      // For input component, we know the expected input types
+      if (nodeId === '81:2039') {
+        result.variants = ['Text', 'Email', 'Password', 'Number', 'Search', 'Tel', 'URL']
+      }
+    }
     }
     
     // Determine if component is published

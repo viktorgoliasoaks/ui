@@ -1,0 +1,16 @@
+{
+  "requestId": "req_1754653800000_91-366",
+  "nodeId": "91:366",
+  "url": "https://www.figma.com/design/rgqHmkJX2Uw9PhGoon1OIh/MCP-Code-Connect-DS?node-id=91-366&t=8wUUWX6cdmjbTGb4-1",
+  "timestamp": "2025-08-19T08:30:00.000Z",
+  "status": "success",
+  "data": {
+    "componentName": "Checkbox",
+    "variants": ["Active", "Inactive"],
+    "states": ["Default", "Focus", "Disabled", "Pressed"],
+    "published": true,
+    "hasCode": true,
+    "hasImage": true,
+    "hasVariables": true
+  }
+}

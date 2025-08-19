@@ -31,6 +31,7 @@ figma.connect(
     example: (props) => {
       // Return proper React JSX using React.createElement
       return <Button
+              className="w-full"
               variant={props.variant}
               size={props.size}>{props.buttontext}
               </Button>

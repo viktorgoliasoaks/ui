@@ -1,20 +1,11 @@
 {
-  "nodeId": "28:1289",
-  "mapping": {
-    "28:1290": {
-      "componentName": "Button",
-      "source": "",
-      "snippet": "<Button variant=\"default\">Button\n              </Button>",
-      "snippetImports": ["import { Button } from \"@/registry/new-york-v4/ui/button\""],
-      "version": "figmadoc",
-      "label": "React"
-    }
-  },
-  "code": "import { Button } from \"@/registry/new-york-v4/ui/button\"\n\ninterface ButtonProps {\n  buttonText?: string;\n  showLeftIcon?: boolean;\n  leftIcon?: React.ReactNode | null;\n  showRightIcon?: boolean;\n  rightIcon?: React.ReactNode | null;\n  variant?:\n    | \"Default\"\n    | \"Secondary\"\n    | \"Destructive\"\n    | \"Outline\"\n    | \"Ghost\"\n    | \"Link\";\n  state?: \"Default\" | \"Hover\" | \"Focus\" | \"Loading\" | \"Disabled\" | \"Pressed\";\n  size?: \"default\" | \"icon\" | \"sm\" | \"lg\";\n}\n\nfunction Button({\n  buttonText = \"Button\",\n  showLeftIcon = false,\n  leftIcon = null,\n  showRightIcon = false,\n  rightIcon = null,\n  variant = \"Default\",\n  state = \"Default\",\n  size = \"default\",\n}: ButtonProps) {\n  return <Button variant=\"default\">Button</Button>;\n}\n\nexport default function Button1() {\n  return (\n    <div className data-name=\"Button\" id=\"node-28_1289\">\n      <Button />\n    </div>\n  );\n}",
-  "publishedCode": "<button class=\"inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground shadow-xs hover:bg-primary/90 h-9 px-4 py-2\">\n  Button\n</button>",
-  "variants": ["Default", "Secondary", "Destructive", "Outline", "Ghost", "Link"],
-  "timestamp": "2025-08-11T08:42:37.854Z",
+  "nodeId": "139-364",
+  "mapping": null,
+  "code": null,
+  "variants": [],
+  "publishedCode": null,
+  "timestamp": "2025-08-19T09:20:32.675Z",
   "source": "figma-mcp",
-  "published": true,
-  "error": null
+  "published": false,
+  "error": "MCP functions not available. This script must run in Cursor with MCP enabled."
 }
